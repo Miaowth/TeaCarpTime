@@ -10,15 +10,10 @@ AHub::AHub()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	DropOffBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Building Box"));
-	DropOffBox->SetupAttachment(this->RootComponent);
-}
-
-// Called when the game starts or when spawned
-void AHub::BeginPlay()
-{
-	Super::BeginPlay();
-	
+	DepositBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Building Box"));
+	DepositBox->SetupAttachment(this->RootComponent);
+	DropBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Drop Box"));
+	DropBox->SetupAttachment(this->RootComponent);
 }
 
 void AHub::OnConstruction(const FTransform& Transform)
@@ -33,8 +28,10 @@ void AHub::OnConstruction(const FTransform& Transform)
 	}else
 	{
 		HubZone->SetActorLocation(GetActorLocation());
-		DropOffBox->SetBoxExtent(HubZone->Box->GetUnscaledBoxExtent() + DropOffDistance);
-		this->DropOffBox->SetRelativeLocation(DropOffBox->GetScaledBoxExtent() - DropOffDistance);
+		DepositBox->SetBoxExtent(HubZone->Box->GetUnscaledBoxExtent() + DropOffDistance);
+		DepositBox->SetRelativeLocation(DepositBox->GetScaledBoxExtent() - DropOffDistance);
+		DropBox->SetBoxExtent(HubZone->Box->GetUnscaledBoxExtent() - 100);
+		DropBox->SetRelativeLocation(DropBox->GetScaledBoxExtent() + 100);
 	}
 }
 
@@ -79,9 +76,16 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 			AddingPart.Quantity = 1;
 			ListOfCollectedParts.Add(AddingPart);
 		}
-		FVector DropPoint = UKismetMathLibrary::RandomPointInBoundingBox(HubZone->Box->GetComponentLocation(), HubZone->Box->GetScaledBoxExtent());
-		DropPoint.Z += 500;
-		PartToAdd->SetActorLocation(DropPoint);
+		FVector DropPoint = UKismetMathLibrary::RandomPointInBoundingBox(DropBox->GetComponentLocation(), DropBox->GetScaledBoxExtent());
+		DropPoint.Z += 100;
+		PartToAdd->SetActorLocation(DropPoint, false, nullptr, ETeleportType::ResetPhysics);
+		PartToAdd->Collected = true;
+		for (int32 i = 0; i < ListOfCollectedParts.Num(); i++)
+		{
+			FString PrintString = ListOfCollectedParts[i].Part->PartName.ToString() + " " + FString::FromInt(ListOfCollectedParts[i].Quantity);
+			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Yellow, PrintString);
+		}
+
 		return true;
 	}
 	else { return false; }
