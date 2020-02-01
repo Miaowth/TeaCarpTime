@@ -10,12 +10,13 @@
 UENUM(BlueprintType, Meta = (Bitflags))
 enum class ERoles : uint8
 {
-	ENGINE			= 1		UMETA(DisplayName="Engine Compatible"),
+	ENGINE			= 1		UMETA(DisplayName = "Engine Compatible"),
 	PEDALS			= 2		UMETA(DisplayName = "Pedal Compatible"),
 	STEERINGWHEEL	= 4		UMETA(DisplayName = "Steering Wheel Compatible"),
 	WINDSCREEN		= 8		UMETA(DisplayName = "Windscreen Compatible"),
 	WHEELS			= 16	UMETA(DisplayName = "Wheel Compatible"),
-	MAX				= 32	UMETA(DisplayName = "MAX")
+	FUEL			= 32	UMETA(DisplayName = "Fuel Compatible"),
+	MAX
 };
 
 ENUM_CLASS_FLAGS(ERoles);
