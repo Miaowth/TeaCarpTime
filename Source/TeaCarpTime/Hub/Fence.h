@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "Engine.h"
+//#include "C:\Program Files\Epic Games\UE_4.23\Engine\Plugins\Runtime\ApexDestruction\Source\ApexDestruction\Public\DestructibleComponent.h"
 #include "Fence.generated.h"
 
 UENUM()
@@ -43,7 +44,8 @@ public:
 	UPROPERTY()
 		UInstancedStaticMeshComponent * BarISM;
 
-
+	//UPROPERTY()
+		//class UDestructibleComponent* DestructableComponent;
 
 public:
 
