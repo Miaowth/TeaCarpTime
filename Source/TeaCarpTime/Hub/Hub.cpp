@@ -82,6 +82,13 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 		FVector DropPoint = UKismetMathLibrary::RandomPointInBoundingBox(HubZone->Box->GetComponentLocation(), HubZone->Box->GetScaledBoxExtent());
 		DropPoint.Z += 500;
 		PartToAdd->SetActorLocation(DropPoint);
+
+		for (int32 i = 0; i < ListOfCollectedParts.Num(); i++)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Yellow, ListOfCollectedParts[i].Part->PartName.ToString());
+			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Yellow, FString::FromInt(ListOfCollectedParts[i].Quantity));
+		}
+
 		return true;
 	}
 	else { return false; }
