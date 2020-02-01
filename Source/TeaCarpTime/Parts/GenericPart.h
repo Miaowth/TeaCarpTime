@@ -15,8 +15,7 @@ enum class ERoles : uint8
 	STEERINGWHEEL	= 4		UMETA(DisplayName = "Steering Wheel Compatible"),
 	WINDSCREEN		= 8		UMETA(DisplayName = "Windscreen Compatible"),
 	WHEELS			= 16	UMETA(DisplayName = "Wheel Compatible"),
-	BODY			= 32	UMETA(DisplayName = "Body Compatible"),
-	MAX				= 64
+	MAX				= 32	UMETA(DisplayName = "MAX")
 };
 
 ENUM_CLASS_FLAGS(ERoles);
@@ -61,12 +60,14 @@ public:
 		UStaticMeshComponent* PartMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
 		FName PartName;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
+		bool SpinsWhileHeld = true;
+	
 	// The details used by the building hub
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")
 		FHubDetails HubDetails;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub", meta = (Bitmask, BitmaskEnum = "ERoles"))
-		ERoles PartRoles;
+		int32 PartRoles;
 
 	// Called when a value changes pre-game
 	void OnConstruction(const FTransform& Transform) override;

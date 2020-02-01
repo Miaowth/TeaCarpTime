@@ -18,5 +18,6 @@ AGenericPart::AGenericPart()
 void AGenericPart::OnConstruction(const FTransform& Transform)
 {
 	if (PartMesh) PartMeshComponent->SetStaticMesh(PartMesh);
+	PartMeshComponent->BodyInstance.bLockRotation = SpinsWhileHeld;
 }
 
