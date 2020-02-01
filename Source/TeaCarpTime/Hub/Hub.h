@@ -22,18 +22,31 @@ public:
 		AFence* HubZone;
 	UPROPERTY()
 		UBoxComponent* DropOffBox;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building")
+		float DropOffDistance = 50;
+
+	UPROPERTY()
+		ACharacter* Player;
+	UPROPERTY()
+		bool PlayerWithinDropOffDistance = false;
 	
 	UPROPERTY()
 		ACar* Car;
 	UPROPERTY()
-		FPartList ListOfCollectedParts;
+		TArray<FPartList> ListOfCollectedParts;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void OnConstruction(const FTransform& Transform) override;
+
+	void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	void NotifyActorEndOverlap(AActor* OtherActor) override;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	bool AddPart(AGenericPart* PartToAdd);
 
 };

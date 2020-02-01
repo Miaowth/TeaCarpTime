@@ -2,6 +2,7 @@
 
 
 #include "Hub.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AHub::AHub()
@@ -20,6 +21,35 @@ void AHub::BeginPlay()
 	
 }
 
+void AHub::OnConstruction(const FTransform& Transform)
+{
+	if (!HubZone)
+	{
+		const FVector SpawnLoc = GetActorLocation();
+		const FRotator SpawnRot = GetActorRotation();
+		FActorSpawnParameters SpawnParams;
+		HubZone = GetWorld()->SpawnActor<AFence>(AFence::StaticClass(), SpawnLoc, SpawnRot, SpawnParams);
+		HubZone->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+	}else
+	{
+		HubZone->SetActorLocation(GetActorLocation());
+		DropOffBox->SetBoxExtent(HubZone->Box->GetUnscaledBoxExtent() + DropOffDistance);
+		this->DropOffBox->SetRelativeLocation(DropOffBox->GetScaledBoxExtent() - DropOffDistance);
+	}
+}
+
+void AHub::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Player = Cast<ACharacter>(OtherActor);
+	if (Player) PlayerWithinDropOffDistance = true;
+}
+
+void AHub::NotifyActorEndOverlap(AActor* OtherActor)
+{
+	Player = Cast<ACharacter>(OtherActor);
+	if (Player) PlayerWithinDropOffDistance = false;
+}
+
 // Called every frame
 void AHub::Tick(float DeltaTime)
 {
@@ -27,3 +57,32 @@ void AHub::Tick(float DeltaTime)
 
 }
 
+bool AHub::AddPart(AGenericPart* PartToAdd)
+{
+	if (PlayerWithinDropOffDistance)
+	{
+		bool AlreadyHadPart = false;
+		for (int32 PartCycler = 0; PartCycler < ListOfCollectedParts.Num(); PartCycler++)
+		{
+			if (ListOfCollectedParts[PartCycler] == PartToAdd)
+			{
+				++ListOfCollectedParts[PartCycler];
+				AlreadyHadPart = true;
+				break;
+			}
+		}
+		if (!AlreadyHadPart)
+		{
+			FPartList AddingPart;
+			AddingPart.Strength = PartToAdd->HubDetails.Strength;
+			AddingPart.Part = PartToAdd;
+			AddingPart.Quantity = 1;
+			ListOfCollectedParts.Add(AddingPart);
+		}
+		FVector DropPoint = UKismetMathLibrary::RandomPointInBoundingBox(HubZone->Box->GetComponentLocation(), HubZone->Box->GetScaledBoxExtent());
+		DropPoint.Z += 500;
+		PartToAdd->SetActorLocation(DropPoint);
+		return true;
+	}
+	else { return false; }
+}
