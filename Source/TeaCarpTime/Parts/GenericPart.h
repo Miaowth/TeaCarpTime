@@ -76,6 +76,8 @@ public:
 		FHubDetails HubDetails;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub", meta = (Bitmask, BitmaskEnum = "ERoles"))
 		int32 PartRoles;
+	UPROPERTY(BlueprintReadWrite, Category = "Hub")
+		bool Collected = false;
 
 	// Called when a value changes pre-game
 	void OnConstruction(const FTransform& Transform) override;
