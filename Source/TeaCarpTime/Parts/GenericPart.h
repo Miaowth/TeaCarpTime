@@ -63,10 +63,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
 		bool SpinsWhileHeld = true;
 
+	// Utility variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Utility")
 		bool IsTrash = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Utility")
 		bool IsFuel = false;
+	UPROPERTY()
+		UPrimitiveComponent* PrimitiveComp;
 	
 	// The details used by the building hub
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")
