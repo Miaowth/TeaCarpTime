@@ -79,6 +79,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")
 		bool Collected = false;
 
+
+	UFUNCTION(BlueprintCallable)
+	void SetMesh();
 	// Called when a value changes pre-game
 	void OnConstruction(const FTransform& Transform) override;
 
