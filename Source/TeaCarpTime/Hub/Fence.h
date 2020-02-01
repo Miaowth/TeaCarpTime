@@ -43,6 +43,8 @@ public:
 	UPROPERTY()
 		UInstancedStaticMeshComponent * BarISM;
 
+
+
 public:
 
 	virtual void OnConstruction(const FTransform &trans) override;

@@ -12,6 +12,7 @@ AGenericPart::AGenericPart()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	PartMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Part Mesh"));
 	PartMeshComponent->SetupAttachment(this->RootComponent);
+	PartMeshComponent->SetSimulatePhysics(true);
 }
 
 // Called when a value changes pre-game
