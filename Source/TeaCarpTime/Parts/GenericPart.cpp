@@ -12,6 +12,7 @@ AGenericPart::AGenericPart()
 	RootComponent = CreateDefaultSubobject<UPrimitiveComponent>(TEXT("Root"));
 	PartMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Part Mesh"));
 	PartMeshComponent->SetupAttachment(this->RootComponent);
+	PartMeshComponent->SetSimulatePhysics(true);
 	PartMeshComponent->SetEnableGravity(true);
 	PartMeshComponent->SetCollisionProfileName(FName("PhysicsActor"));
 }
