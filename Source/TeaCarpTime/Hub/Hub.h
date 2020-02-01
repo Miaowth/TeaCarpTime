@@ -9,7 +9,7 @@
 #include "Components/BoxComponent.h"
 #include "Hub.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartRequirementsMet)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartRequirementsMet);
 
 UCLASS()
 class TEACARPTIME_API AHub : public AActor

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/AudioComponent.h"
 #include "GameFramework/Actor.h"
 #include "GenericPart.generated.h"
 
@@ -64,6 +65,10 @@ public:
 		bool SpinsWhileHeld = true;
 
 	// Utility variables
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Utility")
+		USoundBase* PartSound;
+	UPROPERTY()
+		UAudioComponent* PartSoundComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Utility")
 		bool IsTrash = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Utility")

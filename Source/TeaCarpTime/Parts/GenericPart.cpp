@@ -12,6 +12,8 @@ AGenericPart::AGenericPart()
 	RootComponent = CreateDefaultSubobject<UPrimitiveComponent>(TEXT("Root"));
 	PartMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Part Mesh"));
 	PartMeshComponent->SetupAttachment(this->RootComponent);
+	PartSoundComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Part Sound"));
+	PartSoundComponent->SetupAttachment(this->RootComponent);
 	PartMeshComponent->SetSimulatePhysics(true);
 	PartMeshComponent->SetEnableGravity(true);
 	PartMeshComponent->SetCollisionProfileName(FName("PhysicsActor"));
@@ -27,4 +29,5 @@ void AGenericPart::OnConstruction(const FTransform& Transform)
 void AGenericPart::SetMesh()
 {
 	if(PartMesh) PartMeshComponent->SetStaticMesh(PartMesh);
+	if (PartSound) PartSoundComponent->SetSound(PartSound);
 }
