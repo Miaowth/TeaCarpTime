@@ -114,6 +114,11 @@ public:
 	// Sets default values for this actor's properties
 	ACar();
 
+	UPROPERTY()
+		UStaticMeshComponent* CarMeshComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
+		UStaticMesh* CarMesh;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building")
 		TArray<FPartList> Parts;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building")
@@ -126,15 +131,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Driving")
 		float Strength;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void OnConstruction(const FTransform& Transform) override;
+
 	// Called when the player restarts the car
-	void Go();
+	UFUNCTION(BlueprintCallable)
+	void StartCar();
 
 };
