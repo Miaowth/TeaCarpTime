@@ -46,7 +46,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
+	UFUNCTION(BlueprintCallable)
 	bool AddPart(AGenericPart* PartToAdd);
 
 };
