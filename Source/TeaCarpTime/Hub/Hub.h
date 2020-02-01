@@ -9,6 +9,8 @@
 #include "Components/BoxComponent.h"
 #include "Hub.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPartRequirementsMet)
+
 UCLASS()
 class TEACARPTIME_API AHub : public AActor
 {
@@ -21,7 +23,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building")
 		AFence* HubZone;
 	UPROPERTY()
-		UBoxComponent* DropOffBox;
+		UBoxComponent* DropBox;
+	UPROPERTY()
+		UBoxComponent* DepositBox;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building")
 		float DropOffDistance = 50;
 
@@ -36,8 +40,6 @@ public:
 		TArray<FPartList> ListOfCollectedParts;
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 	void OnConstruction(const FTransform& Transform) override;
 
