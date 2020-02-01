@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Car/Car.h"
+#include "Fence.h"
 #include "Components/BoxComponent.h"
 #include "Hub.generated.h"
 
@@ -18,8 +19,10 @@ public:
 	AHub();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building")
-		UBoxComponent* BuildingZone;
-
+		AFence* HubZone;
+	UPROPERTY()
+		UBoxComponent* DropOffBox;
+	
 	UPROPERTY()
 		ACar* Car;
 	UPROPERTY()

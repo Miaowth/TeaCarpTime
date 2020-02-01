@@ -8,15 +8,14 @@
 
 // Enum bitmask for the compatibility of the parts
 UENUM(BlueprintType, Meta = (Bitflags))
-enum class ERoles : uint8
+enum ERoles
 {
 	ENGINE			= 1		UMETA(DisplayName = "Engine Compatible"),
 	PEDALS			= 2		UMETA(DisplayName = "Pedal Compatible"),
 	STEERINGWHEEL	= 4		UMETA(DisplayName = "Steering Wheel Compatible"),
 	WINDSCREEN		= 8		UMETA(DisplayName = "Windscreen Compatible"),
 	WHEELS			= 16	UMETA(DisplayName = "Wheel Compatible"),
-	FUEL			= 32	UMETA(DisplayName = "Fuel Compatible"),
-	MAX
+	MAX				= 32	UMETA(DisplayName = "N/A")
 };
 
 ENUM_CLASS_FLAGS(ERoles);
@@ -63,6 +62,11 @@ public:
 		FName PartName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
 		bool SpinsWhileHeld = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Utility")
+		bool IsTrash = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Utility")
+		bool IsFuel = false;
 	
 	// The details used by the building hub
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")

@@ -9,8 +9,8 @@ AHub::AHub()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	BuildingZone = CreateDefaultSubobject<UBoxComponent>(TEXT("Building Box"));
-	BuildingZone->SetupAttachment(this->RootComponent);
+	DropOffBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Building Box"));
+	DropOffBox->SetupAttachment(this->RootComponent);
 }
 
 // Called when the game starts or when spawned
