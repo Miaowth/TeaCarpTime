@@ -21,11 +21,16 @@ struct FPartList
 
 	UPROPERTY()
 		float Strength;
+
+	UPROPERTY()
+		int32 RoleOfPart;
 	
 	FPartList()
 	{
 		Part = nullptr;
 		Quantity = 0;
+		Strength = 0;
+		RoleOfPart = 0;
 	}
 
 	// Checks if the input part is the same part as the list

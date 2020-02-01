@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#define GETENUMSTRING(etype, evalue) ( (FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true) != nullptr) ? FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true)->GetEnumName((int32)evalue) : FString("Invalid - are you sure enum uses UENUM() macro?") )
 
 #include "Hub.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -68,6 +69,7 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 				break;
 			}
 		}
+
 		if (!AlreadyHadPart)
 		{
 			FPartList AddingPart;
@@ -80,13 +82,79 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 		DropPoint.Z += 100;
 		PartToAdd->SetActorLocation(DropPoint, false, nullptr, ETeleportType::ResetPhysics);
 		PartToAdd->Collected = true;
-		for (int32 i = 0; i < ListOfCollectedParts.Num(); i++)
+		
+		for (int32 PartIndexer = 0; PartIndexer < ListOfCollectedParts.Num(); PartIndexer++)
 		{
-			FString PrintString = ListOfCollectedParts[i].Part->PartName.ToString() + " " + FString::FromInt(ListOfCollectedParts[i].Quantity);
-			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Yellow, PrintString);
+			if (ListOfCollectedParts[PartIndexer].Part->PartName == PartToAdd->PartName)
+			{
+				ReduceRequirements(PartToAdd, PartIndexer);
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, PartToAdd->PartName.ToString());
+				break;
+			}
 		}
+		if (ArePartRequirementsMet())
+			OnPartRequirementsMet.Broadcast();
 
 		return true;
 	}
-	else { return false; }
+	
+	return false;
+}
+
+bool AHub::ReduceRequirements(AGenericPart* PartToReduceBy, int32 PartIndex)
+{
+	/*
+	if (ListOfCollectedParts[PartIndex].RoleOfPart == 0) {
+		int32 AmountOfFlags = 0;
+		int32 RolesTestNum = static_cast<int32>(PartToReduceBy->PartRoles);
+		for (int32 RoleIterator = 1; RoleIterator < static_cast<int32>(ERoles::MAX); RoleIterator *= 2)
+		{
+			if (RolesTestNum &= static_cast<ERoles>(RoleIterator) == static_cast<ERoles>(RoleIterator)) AmountOfFlags++;
+			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, FString::FromInt(AmountOfFlags));
+		}
+
+		int32 RolePicker = UKismetMathLibrary::RandomInteger(AmountOfFlags);
+		for (int32 RoleIterator = 1; RoleIterator < static_cast<int32>(ERoles::MAX); RoleIterator *= 2)
+		{
+			if (AmountOfFlags == RolePicker)
+			{
+				ListOfCollectedParts[PartIndex].RoleOfPart = RoleIterator;
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, FString::FromInt(RoleIterator));
+				break;
+			}
+			AmountOfFlags--;
+		}
+	}*/
+
+	if (PartToReduceBy->IsFuel)
+	{
+		Car->PartRequirements.Fuel -= PartToReduceBy->HubDetails.Slots;
+		return true;
+	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Yellow, *GETENUMSTRING("ERoles", ListOfCollectedParts[PartIndex].RoleOfPart));
+	
+	switch(ListOfCollectedParts[PartIndex].RoleOfPart)
+	{
+	case ERoles::ENGINE: Car->PartRequirements.Engine -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Engine"); break;
+	case ERoles::PEDALS: Car->PartRequirements.Pedals -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Pedals"); break;
+	case ERoles::STEERINGWHEEL: Car->PartRequirements.SteeringWheel -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, "SteeringWheel"); break;
+	case ERoles::WINDSCREEN: Car->PartRequirements.Windscreen -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Windscreen"); break;
+	case ERoles::WHEELS: Car->PartRequirements.Wheels -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Wheels"); break;
+	case ERoles::MAX: Car->PartRequirements.Body -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Body"); break;
+	}
+
+	return true;
+}
+
+bool AHub::ArePartRequirementsMet()
+{
+	if (Car->PartRequirements.Engine > 0 ||
+		Car->PartRequirements.Pedals > 0 ||
+		Car->PartRequirements.SteeringWheel > 0 ||
+		Car->PartRequirements.Windscreen > 0 ||
+		Car->PartRequirements.Wheels > 0 ||
+		Car->PartRequirements.Body > 0)
+		return false;
+	return true;
 }

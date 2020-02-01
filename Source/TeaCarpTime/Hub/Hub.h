@@ -34,10 +34,14 @@ public:
 	UPROPERTY()
 		bool PlayerWithinDropOffDistance = false;
 	
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Car")
 		ACar* Car;
 	UPROPERTY()
 		TArray<FPartList> ListOfCollectedParts;
+
+	UPROPERTY(BlueprintAssignable)
+		FOnPartRequirementsMet OnPartRequirementsMet;
+
 
 protected:
 
@@ -48,8 +52,11 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	bool ReduceRequirements(AGenericPart* PartToReduceBy, int32 PartIndex);
 	
 	UFUNCTION(BlueprintCallable)
 	bool AddPart(AGenericPart* PartToAdd);
 
+	bool ArePartRequirementsMet();
 };
