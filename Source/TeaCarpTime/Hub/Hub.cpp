@@ -64,6 +64,7 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 		bool AlreadyHadPart = false;
 		for (int32 PartCycler = 0; PartCycler < ListOfCollectedParts.Num(); PartCycler++)
 		{
+			
 			if (ListOfCollectedParts[PartCycler] == PartToAdd)
 			{
 				++ListOfCollectedParts[PartCycler];

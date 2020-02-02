@@ -62,7 +62,7 @@ public:
 	UPROPERTY()
 		UStaticMeshComponent* PartMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
-		FName PartName;
+		FName PartName = FName("Tea");
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
 		bool SpinsWhileHeld = true;
 
