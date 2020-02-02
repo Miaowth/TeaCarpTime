@@ -135,8 +135,6 @@ public:
 		bool Started = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Driving")
 		float Speed = 5.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Driving")
-		UPawnMovementComponent* CarMovementComponent;
 
 	
 	// Called every frame

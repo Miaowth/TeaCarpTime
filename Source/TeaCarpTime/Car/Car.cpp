@@ -13,11 +13,10 @@ ACar::ACar()
 	PrimaryActorTick.bCanEverTick = true;
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	CarMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Car Mesh Component"));
-	CarMovementComponent = CreateDefaultSubobject<UPawnMovementComponent>(TEXT("Movement"));
 	CarMeshComponent->SetupAttachment(this->RootComponent);
-	CarMeshComponent->SetSimulatePhysics(true);
-	CarMeshComponent->SetEnableGravity(true);
-	CarMeshComponent->SetCollisionProfileName(FName("Vehicle"));
+	CarMeshComponent->SetSimulatePhysics(false);
+	CarMeshComponent->SetEnableGravity(false);
+	CarMeshComponent->SetCollisionProfileName(FName("Pawn"));
 }
 
 // Called every frame
@@ -29,7 +28,7 @@ void ACar::Tick(float DeltaTime)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red, FString("Vroom"));
 
-		// CarMovementComponent->AddInputVector(GetActorForwardVector());
+		
 	}
 
 }
