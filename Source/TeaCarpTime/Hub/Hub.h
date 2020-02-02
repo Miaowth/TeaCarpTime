@@ -42,6 +42,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 		FOnPartRequirementsMet OnPartRequirementsMet;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Car")
+		bool IsReady = false;
+
 
 protected:
 

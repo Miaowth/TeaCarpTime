@@ -59,6 +59,8 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 {
 	if (PlayerWithinDropOffDistance)
 	{
+
+		// Checks if the part is new, and adds it to the hub
 		bool AlreadyHadPart = false;
 		for (int32 PartCycler = 0; PartCycler < ListOfCollectedParts.Num(); PartCycler++)
 		{
@@ -69,7 +71,6 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 				break;
 			}
 		}
-
 		if (!AlreadyHadPart)
 		{
 			FPartList AddingPart;
@@ -78,28 +79,27 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 			AddingPart.Quantity = 1;
 			ListOfCollectedParts.Add(AddingPart);
 		}
+
+		// Drops the part into the hub
 		FVector DropPoint = UKismetMathLibrary::RandomPointInBoundingBox(DropBox->GetComponentLocation(), DropBox->GetScaledBoxExtent());
 		DropPoint.Z += 100;
 		PartToAdd->SetActorLocation(DropPoint, false, nullptr, ETeleportType::ResetPhysics);
 		PartToAdd->Collected = true;
-		
+
+		// Reduces the amount of parts still required
 		for (int32 PartIndexer = 0; PartIndexer < ListOfCollectedParts.Num(); PartIndexer++)
 		{
-			if (ListOfCollectedParts[PartIndexer].Part->PartName == PartToAdd->PartName)
+			if (ListOfCollectedParts[PartIndexer] == PartToAdd)
 			{
 				ReduceRequirements(PartToAdd, PartIndexer);
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, PartToAdd->PartName.ToString());
 				break;
 			}
 		}
+
+		// Announces if the part requirements have been met
 		if (ArePartRequirementsMet())
 			OnPartRequirementsMet.Broadcast();
-		for (int32 i = 0; i < ListOfCollectedParts.Num(); i++)
-		{
-			FString PrintString = ListOfCollectedParts[i].Part->PartName.ToString() + " " + FString::FromInt(ListOfCollectedParts[i].Quantity);
-			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Yellow, PrintString);
-		}
-
+		
 		return true;
 	}
 	
@@ -110,12 +110,12 @@ bool AHub::ReduceRequirements(AGenericPart* PartToReduceBy, int32 PartIndex)
 {	
 	switch(ListOfCollectedParts[PartIndex].RoleOfPart)
 	{
-	case ERoles::ENGINE: Car->PartRequirements.Engine -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Engine"); break;
-	case ERoles::PEDALS: Car->PartRequirements.Pedals -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Pedals"); break;
-	case ERoles::STEERINGWHEEL: Car->PartRequirements.SteeringWheel -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, "SteeringWheel"); break;
-	case ERoles::WINDSCREEN: Car->PartRequirements.Windscreen -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Windscreen"); break;
-	case ERoles::WHEELS: Car->PartRequirements.Wheels -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Wheels"); break;
-	case ERoles::BODY: Car->PartRequirements.Body -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Body"); break;
+	case ERoles::ENGINE: Car->PartRequirements.Engine -= PartToReduceBy->HubDetails.Slots; break;
+	case ERoles::PEDALS: Car->PartRequirements.Pedals -= PartToReduceBy->HubDetails.Slots; break;
+	case ERoles::STEERINGWHEEL: Car->PartRequirements.SteeringWheel -= PartToReduceBy->HubDetails.Slots; break;
+	case ERoles::WINDSCREEN: Car->PartRequirements.Windscreen -= PartToReduceBy->HubDetails.Slots; break;
+	case ERoles::WHEELS: Car->PartRequirements.Wheels -= PartToReduceBy->HubDetails.Slots; break;
+	case ERoles::BODY: Car->PartRequirements.Body -= PartToReduceBy->HubDetails.Slots; break;
 	default: break;
 	}
 
@@ -131,5 +131,8 @@ bool AHub::ArePartRequirementsMet()
 		Car->PartRequirements.Wheels > 0 ||
 		Car->PartRequirements.Body > 0)
 		return false;
+
+	Car->Parts = ListOfCollectedParts;
+	IsReady = true;
 	return true;
 }

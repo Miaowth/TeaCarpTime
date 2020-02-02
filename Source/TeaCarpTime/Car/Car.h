@@ -87,17 +87,17 @@ struct FStrengthRequirements
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Engine;
+		float Engine;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Pedals;
+		float Pedals;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 SteeringWheel;
+		float SteeringWheel;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Windscreen;
+		float Windscreen;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Wheels;
+		float Wheels;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Body;
+		float Body;
 
 	FStrengthRequirements()
 	{
@@ -119,7 +119,7 @@ public:
 	// Sets default values for this actor's properties
 	ACar();
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
 		UStaticMeshComponent* CarMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
 		UStaticMesh* CarMesh;
@@ -134,7 +134,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Driving")
 		bool Started = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Driving")
-		float Strength;
+		float Speed = 5.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Driving")
+		UPawnMovementComponent* CarMovementComponent;
 
 	
 	// Called every frame
