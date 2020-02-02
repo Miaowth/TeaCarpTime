@@ -87,17 +87,17 @@ struct FStrengthRequirements
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Engine;
+		float Engine;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Pedals;
+		float Pedals;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 SteeringWheel;
+		float SteeringWheel;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Windscreen;
+		float Windscreen;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Wheels;
+		float Wheels;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Body;
+		float Body;
 
 	FStrengthRequirements()
 	{

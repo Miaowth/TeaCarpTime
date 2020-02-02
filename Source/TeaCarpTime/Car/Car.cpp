@@ -33,5 +33,22 @@ void ACar::OnConstruction(const FTransform& Transform)
 }
 
 // Called when the player restarts the car
-void ACar::StartCar() { Started = true; }
+void ACar::StartCar()
+{
+	Started = true;
+
+	for (auto Stronkifier : Parts)
+	{
+		switch (Stronkifier.RoleOfPart)
+		{
+		case ERoles::ENGINE: StrengthRequirements.Engine -= Stronkifier.Part->HubDetails.Strength; break;
+		case ERoles::PEDALS: StrengthRequirements.Pedals -= Stronkifier.Part->HubDetails.Strength; break;
+		case ERoles::STEERINGWHEEL: StrengthRequirements.SteeringWheel -= Stronkifier.Part->HubDetails.Strength; break;
+		case ERoles::WINDSCREEN: StrengthRequirements.Windscreen -= Stronkifier.Part->HubDetails.Strength; break;
+		case ERoles::WHEELS: StrengthRequirements.Wheels -= Stronkifier.Part->HubDetails.Strength; break;
+		case ERoles::BODY: StrengthRequirements.Body -= Stronkifier.Part->HubDetails.Strength; break;
+		default: break;
+		}
+	}
+}
 
