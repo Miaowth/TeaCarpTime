@@ -8,15 +8,17 @@
 #include "GenericPart.generated.h"
 
 // Enum bitmask for the compatibility of the parts
-UENUM(BlueprintType, Meta = (Bitflags))
-enum ERoles
+UENUM(BlueprintType)
+enum class ERoles : uint8
 {
-	ENGINE			= 1		UMETA(DisplayName = "Engine Compatible"),
-	PEDALS			= 2		UMETA(DisplayName = "Pedal Compatible"),
-	STEERINGWHEEL	= 4		UMETA(DisplayName = "Steering Wheel Compatible"),
-	WINDSCREEN		= 8		UMETA(DisplayName = "Windscreen Compatible"),
-	WHEELS			= 16	UMETA(DisplayName = "Wheel Compatible"),
-	MAX				= 32	UMETA(DisplayName = "N/A")
+	ENGINE UMETA(DisplayName = "Engine Compatible"),
+	PEDALS UMETA(DisplayName = "Pedal Compatible"),
+	STEERINGWHEEL UMETA(DisplayName = "Steering Wheel Compatible"),
+	WINDSCREEN UMETA(DisplayName = "Windscreen Compatible"),
+	WHEELS UMETA(DisplayName = "Wheel Compatible"),
+	BODY UMETA(DisplayName = "Body COmpatible"),
+	FUEL UMETA(DisplayName = "Fuel"),
+	MAX UMETA(DisplayName = "N/A")
 };
 
 ENUM_CLASS_FLAGS(ERoles);
@@ -79,7 +81,7 @@ public:
 	// The details used by the building hub
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")
 		FHubDetails HubDetails;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub", meta = (Bitmask, BitmaskEnum = "ERoles"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")
 		int32 PartRoles;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")
 		bool Collected = false;

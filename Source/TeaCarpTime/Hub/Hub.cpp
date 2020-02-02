@@ -103,35 +103,6 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 
 bool AHub::ReduceRequirements(AGenericPart* PartToReduceBy, int32 PartIndex)
 {
-	/*
-	if (ListOfCollectedParts[PartIndex].RoleOfPart == 0) {
-		int32 AmountOfFlags = 0;
-		int32 RolesTestNum = static_cast<int32>(PartToReduceBy->PartRoles);
-		for (int32 RoleIterator = 1; RoleIterator < static_cast<int32>(ERoles::MAX); RoleIterator *= 2)
-		{
-			if (RolesTestNum &= static_cast<ERoles>(RoleIterator) == static_cast<ERoles>(RoleIterator)) AmountOfFlags++;
-			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, FString::FromInt(AmountOfFlags));
-		}
-
-		int32 RolePicker = UKismetMathLibrary::RandomInteger(AmountOfFlags);
-		for (int32 RoleIterator = 1; RoleIterator < static_cast<int32>(ERoles::MAX); RoleIterator *= 2)
-		{
-			if (AmountOfFlags == RolePicker)
-			{
-				ListOfCollectedParts[PartIndex].RoleOfPart = RoleIterator;
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, FString::FromInt(RoleIterator));
-				break;
-			}
-			AmountOfFlags--;
-		}
-	}*/
-
-	if (PartToReduceBy->IsFuel)
-	{
-		Car->PartRequirements.Fuel -= PartToReduceBy->HubDetails.Slots;
-		return true;
-	}
-
 	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Yellow, *GETENUMSTRING("ERoles", ListOfCollectedParts[PartIndex].RoleOfPart));
 	
 	switch(ListOfCollectedParts[PartIndex].RoleOfPart)

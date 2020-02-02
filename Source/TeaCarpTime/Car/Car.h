@@ -23,14 +23,14 @@ struct FPartList
 		float Strength;
 
 	UPROPERTY()
-		int32 RoleOfPart;
+		ERoles RoleOfPart;
 	
 	FPartList()
 	{
 		Part = nullptr;
 		Quantity = 0;
 		Strength = 0;
-		RoleOfPart = 0;
+		RoleOfPart = ERoles::BODY;
 	}
 
 	// Checks if the input part is the same part as the list
