@@ -107,9 +107,7 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 }
 
 bool AHub::ReduceRequirements(AGenericPart* PartToReduceBy, int32 PartIndex)
-{
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Yellow, *GETENUMSTRING("ERoles", ListOfCollectedParts[PartIndex].RoleOfPart));
-	
+{	
 	switch(ListOfCollectedParts[PartIndex].RoleOfPart)
 	{
 	case ERoles::ENGINE: Car->PartRequirements.Engine -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Engine"); break;
@@ -117,7 +115,8 @@ bool AHub::ReduceRequirements(AGenericPart* PartToReduceBy, int32 PartIndex)
 	case ERoles::STEERINGWHEEL: Car->PartRequirements.SteeringWheel -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, "SteeringWheel"); break;
 	case ERoles::WINDSCREEN: Car->PartRequirements.Windscreen -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Windscreen"); break;
 	case ERoles::WHEELS: Car->PartRequirements.Wheels -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Wheels"); break;
-	case ERoles::MAX: Car->PartRequirements.Body -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Body"); break;
+	case ERoles::BODY: Car->PartRequirements.Body -= PartToReduceBy->HubDetails.Slots; GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Body"); break;
+	default: break;
 	}
 
 	return true;

@@ -82,7 +82,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")
 		FHubDetails HubDetails;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")
-		int32 PartRoles;
+		int32 PartRole;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hub")
 		bool Collected = false;
 
