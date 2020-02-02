@@ -133,5 +133,6 @@ bool AHub::ArePartRequirementsMet()
 		return false;
 
 	Car->Parts = ListOfCollectedParts;
+	IsReady = true;
 	return true;
 }

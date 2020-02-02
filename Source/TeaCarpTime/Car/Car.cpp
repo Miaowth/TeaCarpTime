@@ -3,6 +3,7 @@
 
 #include "Car.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
 #include "Engine/Engine.h"
 
 // Sets default values
@@ -12,7 +13,11 @@ ACar::ACar()
 	PrimaryActorTick.bCanEverTick = true;
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	CarMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Car Mesh Component"));
+	CarMovementComponent = CreateDefaultSubobject<UPawnMovementComponent>(TEXT("Movement"));
 	CarMeshComponent->SetupAttachment(this->RootComponent);
+	CarMeshComponent->SetSimulatePhysics(true);
+	CarMeshComponent->SetEnableGravity(true);
+	CarMeshComponent->SetCollisionProfileName(FName("Vehicle"));
 }
 
 // Called every frame
@@ -23,6 +28,8 @@ void ACar::Tick(float DeltaTime)
 	if (Started)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red, FString("Vroom"));
+
+		// CarMovementComponent->AddInputVector(GetActorForwardVector());
 	}
 
 }
@@ -35,8 +42,6 @@ void ACar::OnConstruction(const FTransform& Transform)
 // Called when the player restarts the car
 void ACar::StartCar()
 {
-	Started = true;
-
 	for (auto Stronkifier : Parts)
 	{
 		switch (Stronkifier.RoleOfPart)
@@ -50,5 +55,7 @@ void ACar::StartCar()
 		default: break;
 		}
 	}
+	
+	Started = true;
 }
 

@@ -119,7 +119,7 @@ public:
 	// Sets default values for this actor's properties
 	ACar();
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
 		UStaticMeshComponent* CarMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
 		UStaticMesh* CarMesh;
@@ -134,7 +134,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Driving")
 		bool Started = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Driving")
-		float Strength;
+		float Speed = 5.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Driving")
+		UPawnMovementComponent* CarMovementComponent;
 
 	
 	// Called every frame
