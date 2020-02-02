@@ -30,4 +30,5 @@ void AGenericPart::SetMesh()
 {
 	if(PartMesh) PartMeshComponent->SetStaticMesh(PartMesh);
 	if (PartSound) PartSoundComponent->SetSound(PartSound);
+
 }

@@ -94,6 +94,11 @@ bool AHub::AddPart(AGenericPart* PartToAdd)
 		}
 		if (ArePartRequirementsMet())
 			OnPartRequirementsMet.Broadcast();
+		for (int32 i = 0; i < ListOfCollectedParts.Num(); i++)
+		{
+			FString PrintString = ListOfCollectedParts[i].Part->PartName.ToString() + " " + FString::FromInt(ListOfCollectedParts[i].Quantity);
+			GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Yellow, PrintString);
+		}
 
 		return true;
 	}
