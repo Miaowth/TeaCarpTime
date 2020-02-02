@@ -31,7 +31,7 @@ public:
 
 	UPROPERTY()
 		ACharacter* Player;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool PlayerWithinDropOffDistance = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Car")
